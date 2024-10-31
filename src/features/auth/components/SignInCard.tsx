@@ -10,25 +10,25 @@ import {z} from 'zod'
 import {zodResolver} from '@hookform/resolvers/zod'
 import { Form,FormControl,FormField,FormItem,FormMessage } from "@/components/ui/form";
 import Link from 'next/link';
+import { loginFormSchema } from '../schemas';
+import { useLogin } from '../api/user-login';
 
 
-const formSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(1, 'Minimum 1 characters')
-})
+
 
 export const SignInCard = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const { mutate } = useLogin()
+  const form = useForm<z.infer<typeof loginFormSchema>>({
+    resolver: zodResolver(loginFormSchema),
     defaultValues: {
       email: '',
       password: ''
     }
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: z.infer<typeof loginFormSchema>) {
     console.log("submit called");
-    console.log(values);
+    mutate({json: values})
   }
    
   return (

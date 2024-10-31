@@ -10,16 +10,15 @@ import {z} from 'zod'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {useForm} from 'react-hook-form'
 import { Form,FormControl,FormField,FormItem,FormMessage } from "@/components/ui/form";
+import { registerFormSchema } from '../schemas';
+import { useRegister } from '../api/user-register';
 
-const formSchema = z.object({
-  name: z.string().trim().min(1,'Reqiored'),
-  email: z.string().email(),
-  password: z.string().min(8, 'Minimum 8 characters')
-})
+
 
 export const SignUpCard = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const { mutate } = useRegister()
+  const form = useForm<z.infer<typeof registerFormSchema>>({
+    resolver: zodResolver(registerFormSchema),
     defaultValues: {
       name: '',
       email: '',
@@ -27,9 +26,9 @@ export const SignUpCard = () => {
     }
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("submit called");
-    console.log(values);
+  function onSubmit(values: z.infer<typeof registerFormSchema>) {
+    console.log("register called");
+    mutate({json: values})
   }
   return (
     <Card className='w-full h-full md:w-[487px] border-none shadow-xl'>
@@ -91,7 +90,7 @@ export const SignUpCard = () => {
               </FormItem>
               )}
             />
-            <Button disabled={false} size='lg' className='w-full'>Login</Button>
+            <Button disabled={false} size='lg' className='w-full'>Register</Button>
           </form>
         </Form>
 
