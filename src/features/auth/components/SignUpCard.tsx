@@ -11,7 +11,7 @@ import {zodResolver} from '@hookform/resolvers/zod'
 import {useForm} from 'react-hook-form'
 import { Form,FormControl,FormField,FormItem,FormMessage } from "@/components/ui/form";
 import { registerFormSchema } from '../schemas';
-import { useRegister } from '../api/user-register';
+import { useRegister } from '../api/use-register';
 
 
 
