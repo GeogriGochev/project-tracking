@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import { FaGithub } from 'react-icons/fa'
@@ -17,7 +19,7 @@ import { useLogin } from '../api/use-login';
 
 
 export const SignInCard = () => {
-  const { mutate } = useLogin()
+  const { mutate, isPending } = useLogin()
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -46,6 +48,7 @@ export const SignInCard = () => {
                 <FormItem>
                   <FormControl>
                     <Input
+                    disabled={isPending}
                     type='email'
                     placeholder='Enter email Address'
                     {...field}
@@ -60,6 +63,7 @@ export const SignInCard = () => {
                 <FormControl>
                   <Input
                   type='password'
+                  disabled={isPending}
                   placeholder='Enter password'
                   {...field}
                   />
@@ -68,7 +72,7 @@ export const SignInCard = () => {
               </FormItem>
               )}
             />
-            <Button disabled={false} size='lg' className='w-full'>Login</Button>
+            <Button disabled={isPending} size='lg' className='w-full'>Login</Button>
           </form>
         </Form>
       </CardContent>
@@ -76,8 +80,8 @@ export const SignInCard = () => {
         <DottedSeparator />
       </div>
       <CardContent className='p-7 flex flex-col gap-y-4'>
-        <Button variant='secondary' size='lg' className='w-full'><FcGoogle className='mr-2 size-5'/> Login with Google</Button>
-        <Button variant='secondary' size='lg' className='w-full'><FaGithub className='mr-2 size-5'/> Login with Github</Button>
+        <Button disabled={isPending} variant='secondary' size='lg' className='w-full'><FcGoogle className='mr-2 size-5'/> Login with Google</Button>
+        <Button disabled={isPending} variant='secondary' size='lg' className='w-full'><FaGithub className='mr-2 size-5'/> Login with Github</Button>
       </CardContent>
       <div className='px-7'>
         <DottedSeparator />

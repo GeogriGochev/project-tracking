@@ -1,6 +1,6 @@
 'use client'
 
-import { Avatar,AvatarFallback,AvatarImage } from '@radix-ui/react-avatar'
+import { Avatar,AvatarFallback } from '@radix-ui/react-avatar'
 import { DropdownMenu,DropdownMenuContent,DropdownMenuItem,DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { DottedSeparator } from '@/components/DottedSeparator'
 import { useLogout } from '../api/use-logout'
@@ -9,7 +9,7 @@ import {Loader, LogOut} from 'lucide-react'
 
 export const UserButton = () => {
   const {data: user,isLoading} = useCurrent()
-  console.log(useLogout());
+  const {mutate:logout} = useLogout()
   
   if(!user) {
     return null
@@ -52,7 +52,7 @@ export const UserButton = () => {
           </div>
         </div>
         <DottedSeparator className='mb-1'/>
-        <DropdownMenuItem className='h-10 flex items-center text-amber-700 justify-center font-medium cursor-pointer'>
+        <DropdownMenuItem onClick={() => logout()} className='h-10 flex items-center text-amber-700 justify-center font-medium cursor-pointer'>
           <LogOut className='size-4 mr-2 '/>
           Log out
         </DropdownMenuItem>
